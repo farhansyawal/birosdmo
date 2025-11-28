@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swal2-confirm {
+    background-color: #2563eb !important; /* biru */
+    color: white !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #1e40af !important; /* biru lebih gelap */
+}
+
+.swal2-cancel {
+    background-color: #dc2626 !important; /* merah */
+    color: white !important;
+    border: none !important;
+}
+
+.swal2-cancel:hover {
+    background-color: #b91c1c !important; /* merah gelap */
+}
+
+/* Optional: Hilangkan style transparan default */
+.swal2-actions button {
+    backdrop-filter: none !important;
+}

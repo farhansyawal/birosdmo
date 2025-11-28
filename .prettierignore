@@ -1,0 +1,6 @@
+# Abaikan Blade biar tidak diubah Prettier
+resources/views/**/*.blade.php
+storage/
+vendor/
+node_modules/
+public/
