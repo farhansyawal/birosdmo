@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Cache; // Tambahkan Cache biar cepat
 
 class ReferensiController extends Controller
 {
@@ -26,37 +27,54 @@ class ReferensiController extends Controller
 
     public function getPangkat()
     {
-        return $this->getSheetData('REFERENSI PANGKAT DAN GOLONGAN', 'A');
+        // Pastikan besar kecil huruf sesuai nama Sheet di Excel
+        // Cek apakah 'REFERENSI PANGKAT DAN GOLONGAN' atau 'REFERENSI Pangkat dan Golongan'
+        return $this->getSheetData('REFERENSI Pangkat dan Golongan', 'A'); 
+    }
+
+    public function getPensiun()
+    {
+        // PERBAIKAN DISINI: Ganti nama sheet jadi PENSIUN
+        return $this->getSheetData('REFERENSI JENIS PENSIUN', 'A');
+    }
+
+    public function getKenaikanPangkat(): mixed
+    {
+        // PERBAIKAN DISINI: Ganti nama sheet jadi PENSIUN
+        return $this->getSheetData('Referensi Jenis Kenaikan pangka', 'A');
     }
 
     private function getSheetData($sheetName, $column)
     {
-        if (!file_exists($this->path)) {
-            return response()->json(['error' => 'File Excel tidak ditemukan.'], 404);
-        }
-
-        try {
-            $spreadsheet = IOFactory::load($this->path);
-            $sheet = $spreadsheet->getSheetByName($sheetName);
-
-            if (!$sheet) {
-                return response()->json(['error' => "Sheet '{$sheetName}' tidak ditemukan."], 404);
+        // Gunakan Cache 60 menit agar tidak load Excel terus menerus (Berat)
+        return Cache::remember('ref_' . $sheetName, 60 * 60, function () use ($sheetName, $column) {
+            if (!file_exists($this->path)) {
+                return [];
             }
 
-            $rows = $sheet->toArray(null, true, true, true);
+            try {
+                $spreadsheet = IOFactory::load($this->path);
+                $sheet = $spreadsheet->getSheetByName($sheetName);
 
-            $values = collect($rows)
-                ->skip(1)
-                ->map(fn($r) => trim($r[$column] ?? ''))
-                ->filter()
-                ->unique()
-                ->values()
-                ->map(fn($v) => ['value' => $v, 'label' => $v])
-                ->values();
+                if (!$sheet) {
+                    return [];
+                }
 
-            return response()->json($values);
-        } catch (\Throwable $e) {
-            return response()->json(['error' => 'Gagal membaca file: ' . $e->getMessage()], 500);
-        }
+                $rows = $sheet->toArray(null, true, true, true);
+
+                return collect($rows)
+                    ->skip(1) // Lewati Header
+                    ->map(fn($r) => trim($r[$column] ?? ''))
+                    ->filter() // Hapus baris kosong
+                    ->unique() // Hapus duplikat
+                    ->values()
+                    // Format output agar konsisten: [{value: 'X', label: 'X'}]
+                    ->map(fn($v) => ['value' => $v, 'label' => $v]) 
+                    ->toArray();
+
+            } catch (\Throwable $e) {
+                return [];
+            }
+        });
     }
 }

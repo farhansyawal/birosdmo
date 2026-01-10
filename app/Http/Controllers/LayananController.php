@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class LayananController extends Controller
 {
     public function index()
     {
-        // Nanti bisa diganti ambil dari database
-        $layananList = [
-            'Layanan 1',
-            'Layanan 2',
-            'Layanan 3',
-            'Layanan 4',
-            // dst sampai 28 layanan
-        ];
+        $layanans = Layanan::all();
 
-        return view('layanan', compact('layananList'));
+        return view('layanan', compact('layanans'));
     }
 }

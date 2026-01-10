@@ -1,31 +1,38 @@
-<nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start"
+<nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-2 md:mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start"
     navbar-main navbar-scroll="true">
     <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
 
+        {{-- BREADCRUMB (KIRI) --}}
         <nav>
             <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
                 <li class="text-sm leading-normal">
-                    <a class="opacity-50 text-slate-700" href="javascript:;">Pages</a>
+                    <a class="opacity-50 text-slate-700" href="javascript:;">Admin</a>
                 </li>
                 <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']"
-                    aria-current="page">Dashboard</li>
+                    aria-current="page">
+                    {{ str_replace(['admin.', '.index', '.edit', '.create', '.show'], '', Route::currentRouteName() ?? 'Dashboard') }}
+                </li>
             </ol>
-            <h6 class="mb-0 font-bold capitalize">Dashboard</h6>
+            <h6 class="mb-0 font-bold capitalize">
+                {{ str_replace(['admin.', '.index', '.edit', '.create', '.show'], '', Route::currentRouteName() ?? 'Dashboard') }}
+            </h6>
         </nav>
 
+        {{-- MENU KANAN --}}
         <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-
             <ul class="flex flex-row justify-end pl-0 mb-0 list-none w-full md-max:w-full">
 
+                {{-- HAMBURGER MENU (MOBILE ONLY) --}}
                 <li class="flex items-center pl-4 xl:hidden">
                     <a href="javascript:;" class="block p-0 text-sm transition-all ease-nav-brand text-slate-500"
-                        id="sidenav-trigger-btn">
+                        id="sidenav-trigger-btn" sidenav-trigger>
                         <div class="w-4.5 overflow-hidden">
                             <i class="fas fa-bars text-lg"></i>
                         </div>
                     </a>
                 </li>
 
+                {{-- USER DROPDOWN --}}
                 <li class="relative flex items-center pl-4">
                     @auth
                         <button id="userDropdownButton"
@@ -38,6 +45,7 @@
                             </svg>
                         </button>
 
+                        {{-- Dropdown Menu --}}
                         <div id="userDropdownMenu"
                             class="hidden absolute right-0 mt-2 w-44 bg-white border border-gray-100 rounded-xl shadow-lg z-50"
                             style="top: 100%;">
@@ -50,10 +58,8 @@
                             </form>
                         </div>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="block px-3 py-2 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-all">
-                            <i class="fa fa-user sm:mr-1"></i>
-                            <span class="hidden sm:inline">Sign In</span>
+                        <a href="{{ route('login') }}" class="block px-3 py-2 text-sm font-semibold text-slate-500 hover:text-slate-700">
+                            <i class="fa fa-user sm:mr-1"></i> Sign In
                         </a>
                     @endauth
                 </li>

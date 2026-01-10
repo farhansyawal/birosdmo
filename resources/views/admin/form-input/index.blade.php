@@ -116,7 +116,8 @@
                                     <option value="text">Text (Singkat)</option>
                                     <option value="textarea">Textarea (Panjang)</option>
                                     <option value="number">Number (Angka)</option>
-                                    <option value="month">Month (Angka)</option>
+                                    <option value="month">Month (Bulan)</option>
+                                    <option value="year">Year (Tahun)</option>
                                     <option value="email">Email</option>
                                     <option value="date">Date (Tanggal)</option>
                                     <option value="select">Select (Dropdown)</option>

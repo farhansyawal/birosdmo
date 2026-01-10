@@ -3,63 +3,81 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest; // Pastikan ini ada jika pakai validasi request
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * 🔹 Tampilkan halaman login.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * 🔹 Tangani proses login.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    // Ubah parameter jadi Request biasa agar lebih fleksibel menangani AJAX
+    public function store(Request $request)
     {
-        // Cek apakah user ada dan sudah diverifikasi
+        // 1. Validasi Input
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        // 2. Cek Manual: Apakah user ada?
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return back()->withErrors([
-                'email' => 'Akun tidak ditemukan.',
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun dengan email tersebut tidak ditemukan.',
+            ], 422);
+        }
+
+        // 3. Cek Manual: Status Verifikasi
+        if (!$user->is_verified) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akun Anda belum terverifikasi. Mohon tunggu konfirmasi admin.',
+            ], 422);
+        }
+
+        // 4. Tangkap nilai checkbox 'remember' (True/False)
+        // Pastikan name di HTML adalah 'remember'
+        // DEBUGGING: Cek apakah remember bernilai true/false
+        $remember = $request->boolean('remember');
+
+        // Hapus tanda komentar di bawah ini untuk tes
+        // return response()->json(['status' => 'debug', 'remember_value' => $remember]); 
+
+        // 4. Login dengan Remember Me
+        if (Auth::attempt($request->only('email', 'password'), $remember)) {
+            $request->session()->regenerate();
+
+            return response()->json([
+                'success' => true,
+                'title' => 'Login Berhasil!',
+                'message' => 'Selamat datang kembali.',
+                'redirect_url' => route('beranda'),
+                // Kirim balik status remember untuk kita lihat di console browser
+                'debug_remember' => $remember
             ]);
         }
 
-        // Cek status verifikasi
-        if (!$user->is_verified) {
-            return back()->withErrors([
-                'email' => 'Akun Anda belum terverifikasi, tunggu konfirmasi dari admin.',
-            ])->onlyInput('email');
-        }
-
-        // Jika sudah diverifikasi → lanjut login
-        $request->authenticate();
-        $request->session()->regenerate();
-
-        session()->flash('success', 'Berhasil login! Selamat datang kembali.');
-
-        return redirect()->route('beranda');
+        // Jika Password Salah
+        return response()->json([
+            'success' => false,
+            'message' => 'Kata sandi yang Anda masukkan salah.',
+        ], 422);
     }
 
-    /**
-     * 🔹 Logout user dari aplikasi.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect()->route('beranda');
     }
 }

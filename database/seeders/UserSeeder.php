@@ -19,21 +19,21 @@ class UserSeeder extends Seeder
         // Tambahkan user-role
         User::create([
             'name' => 'Admin Utama',
-            'email' => 'admin@example.com',
+            'email' => 'admin@bsdmo.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
         User::create([
             'name' => 'Operator Biro',
-            'email' => 'operator@example.com',
+            'email' => 'operator@bsdmo.com',
             'password' => Hash::make('password'),
             'role' => 'operator',
         ]);
 
         User::create([
             'name' => 'Pengguna Umum',
-            'email' => 'user@example.com',
+            'email' => 'user@bsdmo.com',
             'password' => Hash::make('password'),
             'role' => 'user',
         ]);

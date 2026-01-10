@@ -1,4 +1,4 @@
-<!-- @extends('layouts.app')
+ @extends('layouts.app')
 
 @section('content')
 {{-- ===================== SECTION KONTAK ===================== --}}
@@ -6,7 +6,7 @@
     <div class="max-w-6xl mx-auto">
 
         {{-- HEADER --}}
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 reveal">
             <h1 class="text-4xl font-extrabold text-gray-800">Hubungi Kami</h1>
             <p class="text-gray-600 mt-3 max-w-2xl mx-auto">
                 Jangan ragu untuk menghubungi kami melalui form atau informasi berikut.
@@ -17,7 +17,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
 
             {{-- INFO KONTAK --}}
-            <div class="space-y-4 text-gray-700">
+            <div class="space-y-6 text-gray-700 reveal delay">
                 <p class="flex items-start">
                     <i class="fa-solid fa-building text-blue-600 w-7 mt-1"></i>
                     <span>
@@ -84,13 +84,4 @@
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </section>
-@endse
-
-{{-- ===================== ANIMASI SCROLL (REVEAL) ===================== --}}
-@push('scripts')
-<style>
-    .reveal {
-        opacity-0;
-        transform: translateY(40px)
-        transiti
-    }ic
+@endsection
