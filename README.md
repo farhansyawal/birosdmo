@@ -1,7 +1,8 @@
 <div align="center">
 
   <!-- Logo atau Banner Proyek (Opsional) -->
-  ![Uploading 1.PNG…]()
+  <img width="948" height="474" alt="1" src="https://github.com/user-attachments/assets/533b1b7f-8362-46e1-8c52-c8ef9cb755a1" />
+
 
 
 
