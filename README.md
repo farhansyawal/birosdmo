@@ -1,7 +1,7 @@
 <div align="center">
 
   <!-- Logo atau Banner Proyek (Opsional) -->
-  <img width="960" height="960" alt="logo" src="https://github.com/user-attachments/assets/59d818f5-f8b5-4e8e-b515-f2f5fa5de779" />
+  <img width="520" height="520" alt="logo" src="https://github.com/user-attachments/assets/59d818f5-f8b5-4e8e-b515-f2f5fa5de779" />
 
 
   # 🏢 Web Application Biro SDMO KLH/BPLH
