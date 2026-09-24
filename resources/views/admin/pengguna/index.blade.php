@@ -126,7 +126,7 @@
 
             Swal.fire(alertConfig).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`/admin/pages/pengguna/${id}/toggle-status`, {
+                    fetch(`/admin/pengguna/${id}/toggle-status`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

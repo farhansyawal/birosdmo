@@ -225,14 +225,14 @@ Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(f
 });
 
 // Hapus route ini nanti setelah masalah selesai
-Route::get('/cek-json', function() {
+Route::get('/cek-json', function () {
     // Kita ambil 1 data terakhir
     $data = \App\Models\PengajuanLayanan::latest()->first();
-    
+
     return [
         'ID' => $data->id,
         // Ini akan menampilkan data MENTAH dari database tanpa diproses Laravel
-        'RAW_DATA_UMUM' => $data->getRawOriginal('data_umum'), 
+        'RAW_DATA_UMUM' => $data->getRawOriginal('data_umum'),
         'TEST_KEYWORD' => '18429/Setjen/4123'
     ];
 });

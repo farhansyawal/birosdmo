@@ -70,8 +70,7 @@
                 </h1>
                 <div class="w-20 h-1.5 bg-orange-500 mx-auto rounded-full mb-6"></div>
                 <p class="text-teal-100 text-lg leading-relaxed font-medium">
-                    Kementerian Lingkungan Hidup Republik Indonesia. <br>
-                    Mewujudkan tata kelola yang transparan dan akuntabel.
+                    Kementerian Lingkungan Hidup. <br>
                 </p>
             </div>
 
@@ -109,7 +108,7 @@
                         {{-- Input Email --}}
                         <div>
                             <label for="email" class="block text-sm font-semibold text-slate-700 mb-1.5">
-                                Email / NIP
+                                Email
                             </label>
                             <div class="relative rounded-md shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
